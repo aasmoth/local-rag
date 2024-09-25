@@ -7,13 +7,13 @@ from get_vector_db import get_vector_db
 
 TEMP_FOLDER = os.getenv('TEMP_FOLDER', './_temp')
 
-# Function to check if the uploaded file is allowed (only PDF files)
+# Vérifie si le fichier est autorisé (uniquement PDF)
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'pdf'}
 
-# Function to save the uploaded file to the temporary folder
+# Sauvegarde en répertoire temporaire
 def save_file(file):
-    # Save the uploaded file with a secure filename and return the file path
+    # Génération du nom de fichier avec un horodatage et sauvegarde dans répertoire temporaire
     ct = datetime.now()
     ts = ct.timestamp()
     filename = str(ts) + "_" + secure_filename(file.filename)
@@ -22,9 +22,10 @@ def save_file(file):
 
     return file_path
 
-# Function to load and split the data from the PDF file
+# Chargement et découpage du PDF
 def load_and_split_data(file_path):
-    # Load the PDF file and split the data into chunks
+    # Découpe le texte en morceaux de 7500 caractères avec un chevauchement de 100 caractères
+    # Permet de mieux structurer les documents pour l'analyse vectorielle
     loader = UnstructuredPDFLoader(file_path=file_path)
     data = loader.load()
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=7500, chunk_overlap=100)
@@ -32,9 +33,10 @@ def load_and_split_data(file_path):
 
     return chunks
 
-# Main function to handle the embedding process
+# Processus d'embedding principal
 def embed(file):
-    # Check if the file is valid, save it, load and split the data, add to the database, and remove the temporary file
+    # Si le fichier est valide, on le sauvegarde, on le découpe et on l'ajoute à la base 
+    # de données grâce à get_vector_db()
     if file.filename != '' and file and allowed_file(file.filename):
         file_path = save_file(file)
         chunks = load_and_split_data(file_path)
