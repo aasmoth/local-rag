@@ -26,7 +26,7 @@ def get_prompt():
     QUERY_PROMPT = PromptTemplate(
         input_variables=["question"],
         template="""Tu es un assistant de modèle linguistique d'IA. Ta tâche consiste à générer cinq
-        versions différentes de la question donnée par l'utilisateur afin d'extraire les documents pertinents d'une base de données vectorielle.
+        versions différentes de la question donnée par l'utilisateur afin d'extraire les documents pertinents d'une base de données vectorielle. Toutes les réponses doivent être en français. Tu dois donner la référence du document en réponse.
         En générant des perspectives multiples sur la question de l'utilisateur, ton objectif est d'aider l'utilisateur à surmonter certaines des limites de la méthode basée sur la distance.
         votre objectif est d'aider l'utilisateur à surmonter certaines des limites de la recherche de similarité basée sur la distance.
         basée sur la distance. Tu fourniras ces questions alternatives séparées par des nouvelles lignes.

@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from embed import embed
 from query import query
 from get_vector_db import get_vector_db
@@ -12,6 +12,11 @@ TEMP_FOLDER = os.getenv('TEMP_FOLDER', './_temp')
 os.makedirs(TEMP_FOLDER, exist_ok=True)
 
 app = Flask(__name__)
+
+# Route pour servir l'interface HTML
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 @app.route('/embed', methods=['POST'])
 def route_embed():
